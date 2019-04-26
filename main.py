@@ -3,8 +3,6 @@ from tkinter import *
 from tkinter import ttk
 import threading
 
-TIMER_LENGTH = 8.0
-
 
 class gui:
 
@@ -22,19 +20,22 @@ class gui:
         line = inFile.readline()
         # wordlist: list of strings
         wordlist = line.split()
-        print("  ", len(wordlist), "words loaded.")
         return wordlist
 
     def setWord(self):
+        """
+        Sets the word in the label
+        """
         self.word.set(choice(self.wordlist))
-        self.t = threading.Timer(TIMER_LENGTH, self.setWord)
+        self.t = threading.Timer(self.TIMER_LENGTH, self.setWord)
         self.t.start()
 
     def onClose(self):
         self.t.cancel()
         self.root.destroy()
 
-    def __init__(self):
+    def __init__(self, timer_length):
+        self.TIMER_LENGTH = timer_length
         self.root = Tk()
         self.word = StringVar()
         self.word_label = Label(self.root, textvariable=self.word)
@@ -49,4 +50,4 @@ class gui:
 
 
 if __name__ == "__main__":
-    window = gui()
+    window = gui(8.0)
