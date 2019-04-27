@@ -14,7 +14,6 @@ class gui:
         Depending on the size of the word list, this function may
         take a while to finish.
         """
-        print("Loading word list from file...")
         # inFile: file
         inFile = open("wordlist.txt", 'r')
         # line: string
@@ -25,9 +24,16 @@ class gui:
 
     def setWord(self):
         """
-        Sets the word in the label
+        Sets the word in the label, and adjusts window geometry
         """
         self.word.set(choice(self.wordlist))
+        self.word_label.update()
+        self.window_width = self.word_label.winfo_width() + 60
+        self.window_x_pos = int((self.screen_width - self.window_width) // 2)
+        self.root.geometry("{}x{}+{}+{}".format(self.window_width,
+                                                self.window_height,
+                                                self.window_x_pos,
+                                                self.window_y_pos))
         self.t = threading.Timer(self.TIMER_LENGTH, self.setWord)
         self.start_time = time.time()
         self.time_remaining = self.TIMER_LENGTH
@@ -50,19 +56,22 @@ class gui:
         self.TIMER_LENGTH = timer_length
         self.root = Tk()
         self.root.title("Sight Word Practice")
+        self.screen_width = self.root.winfo_screenwidth()
+        self.screen_height = self.root.winfo_screenheight()
+        self.window_height = 280
+        self.window_y_pos = int((self.screen_height - self.window_height) // 2)
         self.word = StringVar()
         self.word_label = Label(self.root, textvariable=self.word)
-        self.word_label.grid(column=0, row=0, sticky=(N, E, S, W), padx=30, pady=30)
+        self.word_label.grid(column=0, row=0, sticky=(S, E, W), padx=30, pady=30)
         self.word_label.config(font=("Helvetica", 96))
         self.pause = Button(text="Play/Pause", command=self.toggleTimer)
-        self.pause.grid(row="1", column="0")
+        self.pause.grid(row="1", column="0", pady=30, sticky=(N))
         self.wordlist = self.loadWords()
         self.setWord()
-        self.root.geometry("900x250+100+350")
+        # self.root.geometry("+100+350")
         self.root.protocol("WM_DELETE_WINDOW", self.onClose)
-        # self.root.geometry("500x500")
         self.root.mainloop()
 
 
 if __name__ == "__main__":
-    window = gui(2.0)
+    window = gui(8.0)
