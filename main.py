@@ -37,11 +37,11 @@ class gui:
         self.window_width = self.word_label.winfo_width() + 60
         self.window_x_pos = int((self.screen_width - self.window_width) // 2)
         self.root.geometry("{}x{}+{}+{}".format(self.window_width,
-        self.window_height,
-        self.window_x_pos,
-        self.window_y_pos))
+                                                self.window_height,
+                                                self.window_x_pos,
+                                                self.window_y_pos))
 
-    def toggle_timer(self):
+    def toggle_timer(self, event=None):
         """
         Used to pause and restart the timer, based upon time remaining.
         """
@@ -79,11 +79,14 @@ class gui:
         self.pause = Button(self.root, text="Pause", command=self.toggle_timer)
         self.pause.grid(row="1", column="0", sticky=(N))
         self.pause.config(font=("Helvetica", 32))
+        self.pause.focus_force()
 
         self.load_words()
         self.set_word()
 
+        self.root.bind('<Return>', self.toggle_timer)
         self.root.mainloop()
+
 
 if __name__ == "__main__":
     window = gui(3.0)
