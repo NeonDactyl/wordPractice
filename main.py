@@ -1,6 +1,5 @@
 from random import choice
-from tkinter import *
-from tkinter import ttk
+from tkinter import Tk, StringVar, Label, N, E, W, Button
 import time
 import threading
 
@@ -61,6 +60,9 @@ class gui:
         self.root.destroy()
 
     def __init__(self, timer_length):
+        """
+        Initializes main window, set defaults, and run main program
+        """
         self.TIMER_LENGTH = timer_length
         self.root = Tk()
         self.root.title("Sight Word Practice")
