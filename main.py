@@ -47,10 +47,12 @@ class gui:
         if self.t.isAlive():
             self.t.cancel()
             self.time_remaining -= (time.time() - self.start_time)
+            self.pause.config(text="Play")
         else:
             self.t = threading.Timer(self.time_remaining, self.set_word)
             self.start_time = time.time()
             self.t.start()
+            self.pause.config(text="Pause")
 
     def on_close(self):
         """
